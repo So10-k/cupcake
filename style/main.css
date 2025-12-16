@@ -551,7 +551,96 @@ hr {
   display: block;
   text-align: center;
   float: right;
-  margin-right: 10px; }
+  margin-right: 10px;
+  cursor: pointer; }
+
+.hack-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 150;
+  padding: 20px;
+  overflow-y: auto; }
+
+.hack-menu.active {
+  display: block; }
+
+.hack-menu-content {
+  background: #faf8ef;
+  border-radius: 6px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); }
+
+.hack-menu-content h2 {
+  color: #776e65;
+  margin: 0 0 10px;
+  font-size: 28px; }
+
+.hack-menu-content p {
+  color: #776e65;
+  margin: 0 0 20px;
+  font-size: 16px; }
+
+.hack-menu-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px; }
+
+.hack-tile {
+  background: #cdc1b4;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.1s;
+  position: relative; }
+
+.hack-tile:hover {
+  transform: scale(1.05); }
+
+.hack-tile img {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  display: block; }
+
+.hack-tile span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #776e65; }
+
+.hack-menu-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center; }
+
+.hack-menu-actions a {
+  background: #c41e3a;
+  border-radius: 3px;
+  padding: 0 20px;
+  text-decoration: none;
+  color: #ffffff;
+  height: 40px;
+  line-height: 42px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center; }
+
+.hack-fill-button {
+  background: #000000 !important; }
+
+.hack-close-button {
+  background: #8f7a66 !important; }
+
 
 .game-explanation {
   margin-top: 50px; }

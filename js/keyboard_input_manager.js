@@ -71,10 +71,15 @@ KeyboardInputManager.prototype.listen = function () {
   // Secret code typing functionality removed - now using hack button instead
 
   // Respond to button presses
-  this.bindButtonPress(".hack-button", this.crowd);
+  this.bindButtonPress(".hack-button", this.showHackMenu);
+  this.bindButtonPress(".hack-close-button", this.hideHackMenu);
+  this.bindButtonPress(".hack-fill-button", this.hackFillBoard);
   this.bindButtonPress(".retry-button", this.restart);
   this.bindButtonPress(".restart-button", this.restart);
   this.bindButtonPress(".keep-playing-button", this.keepPlaying);
+
+  // Bind hack tile clicks
+  this.bindHackTileClicks();
 
   // Respond to swipe events
   var touchStartClientX, touchStartClientY;
@@ -143,6 +148,41 @@ KeyboardInputManager.prototype.keepPlaying = function (event) {
 KeyboardInputManager.prototype.crowd = function (event) {
   event.preventDefault();
   this.emit("crowd");
+};
+
+KeyboardInputManager.prototype.showHackMenu = function (event) {
+  event.preventDefault();
+  var hackMenu = document.querySelector(".hack-menu");
+  hackMenu.classList.add("active");
+};
+
+KeyboardInputManager.prototype.hideHackMenu = function (event) {
+  event.preventDefault();
+  var hackMenu = document.querySelector(".hack-menu");
+  hackMenu.classList.remove("active");
+};
+
+KeyboardInputManager.prototype.hackFillBoard = function (event) {
+  event.preventDefault();
+  this.hideHackMenu(event);
+  this.emit("crowd");
+};
+
+KeyboardInputManager.prototype.hackAddTile = function (value) {
+  var hackMenu = document.querySelector(".hack-menu");
+  hackMenu.classList.remove("active");
+  this.emit("hackAddTile", value);
+};
+
+KeyboardInputManager.prototype.bindHackTileClicks = function () {
+  var self = this;
+  var tiles = document.querySelectorAll(".hack-tile");
+  tiles.forEach(function(tile) {
+    tile.addEventListener("click", function() {
+      var value = parseInt(this.getAttribute("data-value"));
+      self.hackAddTile(value);
+    });
+  });
 };
 
 KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {
