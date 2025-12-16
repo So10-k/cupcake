@@ -1,9 +1,5 @@
 function KeyboardInputManager() {
   this.events = {};
-  
-  // Secret code tracking
-  this.secretCode = "cupcake";
-  this.typedKeys = "";
 
   if (window.navigator.msPointerEnabled) {
     //Internet Explorer 10 style
@@ -72,28 +68,10 @@ KeyboardInputManager.prototype.listen = function () {
     }
   });
 
-  // Listen for secret code
-  document.addEventListener("keypress", function (event) {
-    // Only track letter keys (A-Z, a-z)
-    if ((event.which >= 65 && event.which <= 90) || (event.which >= 97 && event.which <= 122)) {
-      var char = String.fromCharCode(event.which).toLowerCase();
-      self.typedKeys += char;
-      
-      // Keep only last N characters where N is secret code length
-      if (self.typedKeys.length > self.secretCode.length) {
-        self.typedKeys = self.typedKeys.slice(-self.secretCode.length);
-      }
-      
-      // Check if secret code was typed
-      if (self.typedKeys === self.secretCode) {
-        self.typedKeys = ""; // Reset
-        self.emit("crowd");
-      }
-    }
-  });
+  // Secret code typing functionality removed - now using hack button instead
 
   // Respond to button presses
-/*   this.bindButtonPress(".crowd-button", this.crowd); */
+  this.bindButtonPress(".hack-button", this.crowd);
   this.bindButtonPress(".retry-button", this.restart);
   this.bindButtonPress(".restart-button", this.restart);
   this.bindButtonPress(".keep-playing-button", this.keepPlaying);
@@ -171,4 +149,10 @@ KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {
   var button = document.querySelector(selector);
   button.addEventListener("click", fn.bind(this));
   button.addEventListener(this.eventTouchend, fn.bind(this));
+  button.addEventListener("keypress", function(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      fn.call(this, event);
+    }
+  }.bind(this));
 };
