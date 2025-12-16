@@ -81,6 +81,9 @@ KeyboardInputManager.prototype.listen = function () {
   // Bind hack tile clicks
   this.bindHackTileClicks();
 
+  // Close hack menu when clicking outside
+  this.bindHackMenuOverlayClick();
+
   // Respond to swipe events
   var touchStartClientX, touchStartClientY;
   var gameContainer = document.getElementsByClassName("game-container")[0];
@@ -182,6 +185,17 @@ KeyboardInputManager.prototype.bindHackTileClicks = function () {
       var value = parseInt(this.getAttribute("data-value"));
       self.hackAddTile(value);
     });
+  });
+};
+
+KeyboardInputManager.prototype.bindHackMenuOverlayClick = function () {
+  var self = this;
+  var hackMenu = document.querySelector(".hack-menu");
+  hackMenu.addEventListener("click", function(event) {
+    // Close menu if clicking on the overlay (not the content)
+    if (event.target === hackMenu) {
+      self.hideHackMenu(event);
+    }
   });
 };
 
