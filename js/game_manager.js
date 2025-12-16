@@ -10,7 +10,6 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
-  this.inputManager.on("hackAddTile", this.addHackTile.bind(this));
 
   this.setup();
 }
@@ -52,37 +51,16 @@ GameManager.prototype.crowd = function () {
   this.over        = false;
   this.won         = false;
   this.keepPlaying = false;
-  
+  this.actuate();
   var counter = 0;
-  var maxValue = 0;
-  var totalPoints = 0;
-  
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 4; j++) {
       counter++;
       var value = Math.pow(2, counter);
-      if (value <= 8192) {
-        var tile = new Tile({ x: j, y: i }, value);
-        this.grid.insertTile(tile);
-        
-        // Track the highest tile value for score
-        if (value > maxValue) {
-          maxValue = value;
-        }
-        
-        // Add the Kcal value of this tile to total points
-        totalPoints += kcal(value);
-      }
+      var tile = new Tile({ x: j, y: i }, value);
+      if (value <= 8192) this.grid.insertTile(tile);
     }
   }
-  
-  // Set score to the highest tile value
-  this.score = maxValue;
-  
-  // Set points to the total Kcal of all tiles
-  this.points = totalPoints;
-  
-  this.actuate();
 };
 
 // Keep playing after winning (allows going over 2048)
@@ -193,25 +171,6 @@ GameManager.prototype.addRandomTile = function () {
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
-  }
-};
-
-// Adds a hack tile with specified value in a random position
-GameManager.prototype.addHackTile = function (value) {
-  if (this.grid.cellsAvailable()) {
-    var tile = new Tile(this.grid.randomAvailableCell(), value);
-    this.grid.insertTile(tile);
-    
-    // Update score if this tile is higher than current score
-    if (value > this.score) {
-      this.score = value;
-    }
-    
-    // Add the Kcal value to points
-    this.points += kcal(value);
-    
-    // Actuate to update the display
-    this.actuate();
   }
 };
 
