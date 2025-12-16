@@ -1,9 +1,5 @@
 function KeyboardInputManager() {
   this.events = {};
-  
-  // Secret code tracking
-  this.secretCode = "cupcake";
-  this.typedKeys = "";
 
   if (window.navigator.msPointerEnabled) {
     //Internet Explorer 10 style
