@@ -529,7 +529,6 @@ hr {
   margin-top: 5px; }
 
 .restart-button {
-  display: inline-block;
   background: #c41e3a;
   border-radius: 3px;
   padding: 0 20px;
@@ -542,7 +541,6 @@ hr {
   float: right; }
 
 .hack-button {
-  display: inline-block;
   background: #000000;
   border-radius: 3px;
   padding: 0 20px;
